@@ -1,39 +1,34 @@
-# Terraform Setup and Installation
+# Terraform Setup and Installation for Beginners
 
-## Prerequisites
+This guide shows how to install Terraform and run a small test. The test creates a local text file, so it does not need an AWS account.
 
-- A supported 64-bit operating system
-- Internet access for downloading Terraform and providers
-- A terminal or PowerShell
-- Cloud credentials only when you plan to manage cloud resources
+## Before You Start
 
-Do not put cloud access keys directly in Terraform files. Use the cloud provider's supported credential configuration, environment variables, or an approved credentials manager.
+You need:
 
-## Install on a Local Machine
+- A Windows, macOS, or Linux computer, or an AWS EC2 Linux server
+- Internet access
+- PowerShell or a terminal
+
+## Step 1: Install Terraform
 
 ### Windows
 
-Using Chocolatey:
-
-```powershell
-choco install terraform
-```
-
-Using winget:
+Open PowerShell as a normal user and run:
 
 ```powershell
 winget install Hashicorp.Terraform
 ```
 
-After installation, open a new PowerShell window and verify it:
+Close and reopen PowerShell, then check the installation:
 
 ```powershell
 terraform version
 ```
 
-If the command is not found, restart the terminal and check that Terraform's installation directory is in `PATH`.
-
 ### macOS
+
+If Homebrew is installed, run:
 
 ```bash
 brew tap hashicorp/tap
@@ -41,94 +36,65 @@ brew install hashicorp/tap/terraform
 terraform version
 ```
 
-### Ubuntu or Debian
+### Ubuntu or EC2 Linux
 
-Use HashiCorp's official package repository or download the appropriate release from the official Terraform website. After installation, verify it with:
+Install Terraform by following HashiCorp's current Linux installation instructions for your operating system. Then run:
 
 ```bash
 terraform version
 ```
 
-Use the official installation instructions for the current repository key and package commands because those details can change.
+The Linux package commands can change, so use the current official instructions instead of copying old repository keys.
 
-## Create and Initialize a Test Directory
+## Step 2: Create a Test Folder
 
-Create a separate working directory for each small experiment:
+Run these commands:
 
 ```bash
 mkdir terraform-demo
 cd terraform-demo
 ```
 
-Create `main.tf`:
+Create a file named `main.tf` and add:
 
 ```hcl
-terraform {
-	required_version = ">= 1.6.0"
-}
-
 resource "local_file" "example" {
-	filename = "${path.module}/example.txt"
-	content  = "Managed by Terraform"
+  filename = "${path.module}/example.txt"
+  content  = "Hello from Terraform"
 }
 ```
 
-Run:
+## Step 3: Run Terraform
+
+Run each command in order:
 
 ```bash
 terraform init
-terraform fmt
-terraform validate
 terraform plan
 terraform apply
 ```
 
-Type `yes` only after reviewing the plan. To remove the test resource later:
+When Terraform asks for confirmation, type `yes`. Terraform will create `example.txt` in the test folder.
+
+## Step 4: Remove the Test Resource
+
+When you finish testing, run:
 
 ```bash
 terraform destroy
 ```
 
-The `local` provider may be downloaded during `terraform init`. For a cloud example, configure the provider and credentials according to that cloud's official guidance before running a plan.
+Type `yes` to remove the file managed by Terraform.
 
-## Install on an AWS EC2 Instance
+## Using Terraform on an EC2 Instance
 
-1. Launch an EC2 instance using a supported Linux distribution.
-2. Connect through SSH or AWS Systems Manager.
-3. Update the package metadata.
+1. Create an EC2 instance with Amazon Linux or Ubuntu.
+2. Connect to it with SSH or AWS Systems Manager.
+3. Install Terraform using the current official Linux instructions.
+4. Run `terraform version` to check it.
 
-For Amazon Linux:
+For AWS resources, attach an IAM role to the EC2 instance. Give the role only the permissions Terraform needs. Do not save AWS access keys in Terraform files.
 
-```bash
-sudo dnf update -y
-```
+## Important Files
 
-For Ubuntu:
-
-```bash
-sudo apt update
-```
-
-4. Install Terraform using HashiCorp's official Linux instructions for the selected distribution.
-5. Verify the installation:
-
-```bash
-terraform version
-```
-
-## EC2 Credential Guidance
-
-The preferred option is to attach an IAM role to the instance with only the permissions Terraform needs. Avoid storing long-lived AWS access keys in shell history, source files, or the Terraform directory.
-
-## Recommended Project Files
-
-```text
-terraform-demo/
-├── main.tf
-├── variables.tf
-├── outputs.tf
-├── versions.tf
-└── .gitignore
-```
-
-At minimum, add `.terraform/` and local state files to `.gitignore` for projects using a remote backend. Never commit secrets or state without reviewing its contents and the repository's security requirements.
+Terraform may create a `.terraform` folder and state files. Do not commit these files or any passwords and access keys to Git. For team projects, use a protected remote backend for the state.

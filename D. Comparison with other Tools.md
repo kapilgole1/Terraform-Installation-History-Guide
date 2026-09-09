@@ -1,31 +1,31 @@
 # Terraform Compared with Other Tools
 
-## Terraform vs Ansible
+Terraform, Ansible, and AWS CloudFormation all automate work, but they are designed for different jobs.
 
-Terraform and Ansible can both automate infrastructure, but they solve different problems.
+## Terraform and Ansible
 
-| Area | Terraform | Ansible |
-| --- | --- | --- |
-| Main purpose | Provision and manage infrastructure | Configure operating systems and deploy applications |
-| Approach | Declarative: describe the desired state | Usually procedural: define the steps to perform |
-| State | Stores resource state in a state file or remote backend | Does not normally keep an infrastructure state file |
-| Typical resources | VPCs, networks, databases, instances, DNS, SaaS services | Packages, files, services, users, application configuration |
-| Best use | Creating, changing, and destroying infrastructure consistently | Configuring machines after they exist |
+| Terraform | Ansible |
+| --- | --- |
+| Creates and manages infrastructure | Configures existing machines |
+| Manages networks, servers, databases, and DNS | Installs packages and configures files and services |
+| Uses a state file | Does not normally manage infrastructure with a state file |
+| Describes the desired result | Usually runs a list of tasks |
 
-They are often used together: Terraform creates the infrastructure, and Ansible configures the operating system and application on it.
+They can be used together. Terraform creates a server, and Ansible installs and configures the software on it.
 
-## Terraform vs AWS CloudFormation
+## Terraform and CloudFormation
 
-| Area | Terraform | AWS CloudFormation |
-| --- | --- | --- |
-| Cloud support | Multi-cloud and many third-party providers | Primarily AWS |
-| Configuration | HCL, with JSON also supported | YAML or JSON |
-| State management | Terraform state managed locally or in a remote backend | AWS manages stack state as part of the stack |
-| Portability | Useful when an organization uses multiple platforms | Strong integration with AWS services |
-| Ecosystem | Terraform providers and modules | AWS resources, templates, and CloudFormation modules |
+| Terraform | AWS CloudFormation |
+| --- | --- |
+| Works with AWS and many other platforms | Made mainly for AWS |
+| Uses HCL files | Uses YAML or JSON files |
+| Uses Terraform providers | Uses AWS services directly |
+| Good for multi-cloud projects | Good for AWS-only projects |
 
-Choose Terraform when multi-cloud support, a common workflow, or a broad provider ecosystem matters. Choose CloudFormation when the environment is AWS-only and deep native AWS integration is the priority.
+## Which One Should You Use?
 
-## Key Decision
+- Use Terraform when you want one workflow for several platforms.
+- Use Ansible when the machines already exist and need software or configuration.
+- Use CloudFormation when your work is only in AWS and native AWS integration is most important.
 
-Terraform is an infrastructure provisioning tool, not a replacement for every automation tool. A practical workflow may use Terraform for infrastructure, Ansible for server configuration, and a CI/CD system for application releases.
+Many teams use Terraform and Ansible together instead of choosing only one.

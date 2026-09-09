@@ -1,46 +1,41 @@
-# Infrastructure as Code: Why It Matters
+# Why Infrastructure as Code Matters
 
-## What Is Infrastructure as Code?
+## What Is It?
 
-Infrastructure as code (IaC) means defining infrastructure in machine-readable files instead of creating every resource manually through a web console. The files can be reviewed, tested, versioned, and executed consistently.
+Infrastructure as code, or IaC, means writing infrastructure settings in files instead of creating everything manually in a web console.
 
-## Why Teams Use IaC
+Terraform is one tool used for IaC.
 
-### Repeatability
+## Main Benefits
 
-The same configuration can create similar environments for development, testing, and production. This reduces differences caused by manual setup.
+### Same Setup Every Time
 
-### Version Control
+The same code can create similar development, test, and production environments. This reduces mistakes caused by manual work.
 
-Infrastructure changes can be committed with a clear history. Pull requests make it possible to review what will change before it is applied.
+### Easy Review
 
-### Faster Recovery
+Infrastructure changes can be saved in Git. Other people can review the change before it is used.
 
-When infrastructure is documented as code, a damaged or temporary environment can be recreated more reliably. Recovery still depends on backups for data and on correct external dependencies.
+### Easier Recovery
 
-### Reduced Configuration Drift
+If an environment is lost, the code can help create it again. Important data still needs separate backups.
 
-Manual changes can make real infrastructure differ from the intended design. IaC tools compare the declared configuration with the current state and expose unexpected differences.
+### Less Configuration Drift
 
-### Standardization
+Configuration drift happens when the real infrastructure becomes different from the code. Terraform can show these differences in a plan.
 
-Modules and shared conventions can enforce naming, tags, networking rules, encryption, and access patterns across projects.
+### Automation
 
-### Automation and Auditability
+A CI/CD system can check the code and run Terraform for approved changes.
 
-CI/CD pipelines can run formatting, validation, security checks, plans, approvals, and applies. The resulting plan and commit history provide an audit trail.
+## Important Safety Rules
 
-## Limitations and Responsibilities
+- Review `terraform plan` before applying changes.
+- Keep state files private because they may contain sensitive information.
+- Never put passwords or access keys in `.tf` files.
+- Give Terraform only the permissions it needs.
+- Keep backups for important data.
 
-IaC is not automatically safe. Teams must still:
+## What Terraform Does Not Do
 
-- Protect state files because they may contain sensitive values.
-- Review plans for destructive changes and data-loss risk.
-- Manage credentials with least privilege.
-- Separate environments and control who can apply changes.
-- Back up important data independently of infrastructure code.
-- Pin tool and provider versions for predictable behavior.
-
-## Terraform's Role
-
-Terraform is one IaC implementation. It is especially useful for provisioning cloud resources and managing dependencies between them. Application deployment, server configuration, secrets management, and monitoring may require additional tools.
+Terraform creates and manages infrastructure. You may still need other tools for server configuration, application deployment, secrets, logging, and monitoring.

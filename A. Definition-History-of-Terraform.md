@@ -1,38 +1,36 @@
-# Definition and History of Terraform
+# What Is Terraform?
 
-## Definition
+Terraform is a tool for creating and managing infrastructure with code. Infrastructure can include servers, networks, databases, storage, and DNS records.
 
-Terraform is an infrastructure-as-code tool used to define, provision, update, and remove infrastructure through configuration files. It uses a declarative model: you describe the desired end state, and Terraform determines the actions required to reach that state.
+Instead of clicking through a cloud console, you write what you want in a `.tf` file. Terraform then works out what must be created, changed, or removed.
 
-Terraform configurations are commonly written in HashiCorp Configuration Language (HCL). Providers allow Terraform to communicate with platforms such as AWS, Azure, Google Cloud, Kubernetes, and many SaaS services.
+Terraform files normally use HashiCorp Configuration Language, also called HCL. Providers connect Terraform to platforms such as AWS, Azure, Google Cloud, and Kubernetes.
 
-## How Terraform Works
+## Basic Terraform Workflow
 
-1. The configuration declares resources and their relationships.
-2. `terraform init` installs the required providers and prepares the working directory.
-3. `terraform plan` compares the configuration, state, and real infrastructure, then shows the proposed changes.
-4. `terraform apply` performs the approved changes.
-5. Terraform records resource identity and metadata in a state file so future plans can calculate changes.
+1. Write the desired infrastructure in a `.tf` file.
+2. Run `terraform init` to prepare the folder.
+3. Run `terraform plan` to preview changes.
+4. Run `terraform apply` to make the changes.
+5. Terraform saves information about the resources in a state file.
 
 Example:
 
 ```hcl
-resource "aws_s3_bucket" "logs" {
-	bucket = "example-logs-bucket"
+resource "local_file" "example" {
+	filename = "${path.module}/example.txt"
+	content  = "Hello from Terraform"
 }
 ```
 
-The example describes the desired bucket. It does not contain a sequence of API calls for creating the bucket.
-
 ## Short History
 
-- Terraform was created by HashiCorp and publicly introduced in 2014.
-- Its provider architecture enabled one configuration workflow across multiple infrastructure platforms.
-- The Terraform ecosystem grew through reusable modules, community providers, and remote state workflows.
-- Terraform 0.12 introduced major improvements to the HCL language and expression system.
-- Later releases added features such as improved dependency handling, testing capabilities, and stronger support for modern infrastructure workflows.
-- In 2023, HashiCorp changed Terraform's license from the Mozilla Public License 2.0 to the Business Source License 1.1. OpenTofu was then created as a separate open-source fork.
+- Terraform was created by HashiCorp and released publicly in 2014.
+- Its provider system allowed one tool to work with many platforms.
+- The Terraform community created reusable modules and providers.
+- Terraform 0.12 brought major improvements to the HCL language.
+- In 2023, HashiCorp changed Terraform's license. OpenTofu was later created as a separate open-source project.
 
-## Why It Matters
+## In Simple Words
 
-Terraform makes infrastructure changes reviewable, repeatable, and version-controlled. It does not remove the need for design, security review, backups, or operational monitoring; it provides a consistent way to manage the infrastructure definition and its changes.
+Terraform helps you describe infrastructure, review changes before making them, and repeat the same setup when needed.
